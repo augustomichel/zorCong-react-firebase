@@ -26,6 +26,7 @@ function AppRoutes(){
         activeBackgroundColor: '#00b94a',
         inactiveBackgroundColor: '#000',
         inactiveTintColor: '#DDD',
+        unmountInactiveRoutes: true,
         itemStyle: {
             marginVertical: 5,
         }

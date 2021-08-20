@@ -1,6 +1,5 @@
 import React, { useState, useContext,useEffect } from 'react';
 import { SafeAreaView, Keyboard, TouchableWithoutFeedback, Alert} from 'react-native';
-import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
@@ -9,14 +8,13 @@ import Header from '../../components/Header';
 import { Background, Input, SubmitButton, SubmitText} from './styles';
 
 
-export default function New() {
+export default function Produtos() {
  const navigation = useNavigation();
 
  const [valor, setValor] = useState('');
  const [tipo, setTipo] = useState('');
- const [produto, setProduto] = useState('');
  const { user: usuario } = useContext(AuthContext);
- const [produtos, setProdutos] = useState([]);
+ 
 
 
  function handleSubmit(){
@@ -48,11 +46,16 @@ export default function New() {
    let uid = usuario.uid;
 
     let key = await firebase.database().ref('produtos').child(uid).push().key;
-    await firebase.database().ref('produtos').child(key).set({
+    await firebase.database().ref('produtos').child(uid).child(key).set({
       nome: tipo,
       valor: parseFloat(valor),      
-    })
+    });
+    
+    Keyboard.dismiss();
+    setValor('');
+    navigation.navigate('Home');
  }
+
 
  return (
    <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss() }>

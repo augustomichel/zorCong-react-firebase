@@ -11,17 +11,20 @@ export default function Picker({ onChange, tipo, produtos }){
                width: '100%'
             }}
             selectedValue={tipo}
-            onValueChange={ (valor) => onChange(valor) }
+
+            onValueChange={ (valor) => onChange(valor)  } 
+            
             >
             
                 {produtos.map((item) => {
-                    return (
+                    return ( 
                     <RNPickerSelect.Item
                         label={item.nome}
-                        value={item.nome}
+                        value={item}
                     
                         />
                     );
+                   
                 })}
                 
             </RNPickerSelect>
