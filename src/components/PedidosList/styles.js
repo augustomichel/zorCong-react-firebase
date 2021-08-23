@@ -4,7 +4,7 @@ export const Container = styled.View`
 margin-bottom: 5px;
 padding: 10px;
 box-shadow: 2px 2px rgba(0,0,0, 0.40);
-background-color: rgba(0,0,0,0.02);
+background-color: rgba(0,0,0,0.20);
 `;
 
 export const Tipo = styled.View`

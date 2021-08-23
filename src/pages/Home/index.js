@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { AuthContext } from '../../contexts/auth';
 import Header from '../../components/Header';
-import HistoricoList from '../../components/HistoricoList';
+import PedidosList from '../../components/PedidosList';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from '../../components/DatePicker';
@@ -19,18 +19,18 @@ export default function Home() {
 
   const { user } = useContext(AuthContext);
   const uid = user && user.uid;
-
+  const eid = user && user.empresa;
   const [newDate, setNewDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
   useEffect(()=>{
     async function loadList(){
-      await firebase.database().ref('users').child(uid).on('value', (snapshot)=>{
+      await firebase.database().ref('empresas').child(eid).on('value', (snapshot)=>{
         setSaldo(snapshot.val().saldo);
       });
 
       await firebase.database().ref('historico')
-      .child(uid)
+      .child(eid)
       .orderByChild('date').equalTo(format(newDate, 'dd/MM/yyyy'))
       .limitToLast(20).on('value', (snapshot)=>{
         setHistorico([]);
@@ -88,12 +88,12 @@ export default function Home() {
 
   async function handleDeleteSuccess(data){
     await firebase.database().ref('historico')
-    .child(uid).child(data.key).remove()
+    .child(eid).child(data.key).remove()
     .then( async ()=>{
       let saldoAtual = saldo;
       data.status === 'entregue' ? saldoAtual -= parseFloat(data.valor) : '' ;
 
-      await firebase.database().ref('users').child(uid)
+      await firebase.database().ref('empresas').child(eid)
       .child('saldo').set(saldoAtual);
     })
     .catch((error)=>{
@@ -154,14 +154,14 @@ export default function Home() {
       }
   
     await firebase.database().ref('historico')
-    .child(uid).child(data.key).update({ 
+    .child(eid).child(data.key).update({ 
         status: novoStatus
     })
     .then( async ()=>{
       let saldoAtual = saldo;
       novoStatus === 'congelando' ? saldoAtual -= parseFloat(data.valor) : '';
 
-      await firebase.database().ref('users').child(uid)
+      await firebase.database().ref('empresas').child(eid)
       .child('saldo').set(saldoAtual);
     })
     .catch((error)=>{
@@ -209,14 +209,14 @@ export default function Home() {
     
   
     await firebase.database().ref('historico')
-    .child(uid).child(data.key).update({ 
+    .child(eid).child(data.key).update({ 
         status: novoStatus
     })
     .then( async ()=>{
       let saldoAtual = saldo;
       novoStatus === 'entregue' ? saldoAtual += parseFloat(data.valor) : '';
 
-      await firebase.database().ref('users').child(uid)
+      await firebase.database().ref('empresas').child(eid)
       .child('saldo').set(saldoAtual);
     })
     .catch((error)=>{
@@ -226,7 +226,7 @@ export default function Home() {
 
  return (
     <Background>
-      <Header/>
+      <Header titulo='Pedidos'/>
       <Container>
         <Nome>{user && user.nome}</Nome>
         <Saldo>R$ {saldo.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}</Saldo>
@@ -238,7 +238,7 @@ export default function Home() {
         </TouchableOpacity>
         <Title>Ultimos Pedidos</Title>
         <AddIcon> 
-          <TouchableOpacity onPress={ () => navigation.navigate('Registrar') }>
+          <TouchableOpacity onPress={ () => navigation.navigate('Registrar Pedidos') }>
           
               <Icon name="add-box" color="#00b94a" size={30}  />
               
@@ -252,7 +252,7 @@ export default function Home() {
       showsVerticalScrollIndicator={false}
       data={historico}
       keyExtractor={ item => item.key}
-      renderItem={ ({ item }) => ( <HistoricoList data={item} deleteItem={handleDelete} updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} /> )}
+      renderItem={ ({ item }) => ( <PedidosList data={item} deleteItem={handleDelete} updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} /> )}
       />
 
       {show && (

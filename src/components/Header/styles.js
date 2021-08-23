@@ -8,9 +8,18 @@ export const Container = styled.SafeAreaView`
     margin-bottom: 15px;
     width: 100%;
     height: 60px;
+    flex-direction:row;
 `;
 
 export const ButtonMenu = styled.TouchableWithoutFeedback`
     justify-content: center;
     align-items: center;
+`;
+
+export const Title = styled.Text`
+color: #fff;
+margin-top: 2px;
+text-align:center;
+margin-left: 20px;
+font-size:22px;
 `;

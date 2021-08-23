@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import {Container, Tipo, IconView, TipoText, ClienteText, Del, IconDel, IconNav, Mov} from './styles';
 
-export default function HistoricoList({ data, deleteItem, updateItemBack,updateItemFoward }) {
+export default function PedidosList({ data, deleteItem, updateItemBack,updateItemFoward }) {
  return (
    <TouchableWithoutFeedback onLongPress={ () => updateItem(data) }>
    <Container>

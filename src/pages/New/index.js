@@ -8,7 +8,7 @@ import { AuthContext } from '../../contexts/auth';
 import Header from '../../components/Header';
 import { Background, Input, SubmitButton, SubmitText, PickerView} from './styles';
 import Picker from '../../components/Picker';
-import { Tipo } from '../../components/HistoricoList/styles';
+import { Tipo } from '../../components/PedidosList/styles';
 import { ValidationError } from 'jest-validate';
 
 export default function New() {
@@ -27,7 +27,8 @@ export default function New() {
   async function loadList(){
     
     let uid = usuario.uid;
-    await firebase.database().ref('produtos').child(uid)
+    let eid = usuario.empresa;
+    await firebase.database().ref('produtos').child(eid)
       .on('value', (snapshot)=>{
       setProdutos([]);
       
@@ -89,9 +90,9 @@ useEffect(()=>{
 
  async function handleAdd(){
    let uid = usuario.uid;
-
-    let key = await firebase.database().ref('historico').child(uid).push().key;
-    await firebase.database().ref('historico').child(uid).child(key).set({
+   let eid = usuario.empresa;
+    let key = await firebase.database().ref('historico').child(eid).push().key;
+    await firebase.database().ref('historico').child(eid).child(key).set({
       tipo: tipo.nome === undefined ? tipo : tipo.nome,
       valor: parseFloat(valor),
       cliente: cliente,
@@ -111,7 +112,7 @@ useEffect(()=>{
  return (
    <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss() }>
    <Background>
-       <Header/>
+       <Header titulo="Cadastro de Pedidos"/>
 
        <SafeAreaView style={{ alignItems: 'center' }}>
        <Input

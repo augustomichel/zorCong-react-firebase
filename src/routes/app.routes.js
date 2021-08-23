@@ -33,8 +33,8 @@ function AppRoutes(){
     }}
     >
         <AppDrawer.Screen name="Home" component={Home}/>
-        <AppDrawer.Screen name="Registrar" component={New} />
-        <AppDrawer.Screen name="Produtos" component={Produtos} />
+        <AppDrawer.Screen name="Registrar Pedidos" component={New} />
+        <AppDrawer.Screen name="Cadastro de Produtos" component={Produtos} />
         <AppDrawer.Screen name="Perfil" component={Profile} />
     </AppDrawer.Navigator>
     );

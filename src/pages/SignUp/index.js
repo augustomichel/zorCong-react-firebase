@@ -10,11 +10,12 @@ export default function SignUp() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const [empresa, setEmpresa] = useState('1');
+
   const { signUp, loadingAuth} = useContext(AuthContext);
 
   function handleSignUp(){
-    signUp(email, password, nome);
+    signUp(email, password, nome, empresa);
   }
  
  return (

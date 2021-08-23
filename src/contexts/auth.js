@@ -31,13 +31,14 @@ function AuthProvider({ children }){
         setLoadingAuth(true);
         await firebase.auth().signInWithEmailAndPassword(email,password)
         .then(async (value)=>{
-            let uid = value.user.uid;
+            let uid = value.user.empresa;
             await firebase.database().ref('users').child(uid).once('value')
             .then((snapshot)=>{
                 let data = {
                   uid: uid,
                   nome: snapshot.val().nome,
                   email: value.user.email,
+                  empresa: value.user.empresa
                 };
 
                 setUser(data);
@@ -66,20 +67,22 @@ function AuthProvider({ children }){
     }
     
     //Cadastrar usuario
-    async function signUp(email, password, nome){
+    async function signUp(email, password, nome,empresa){
         setLoadingAuth(true);
         await firebase.auth().createUserWithEmailAndPassword(email,password)
         .then(async (value)=>{
             let uid = value.user.uid;
             await firebase.database().ref('users').child(uid).set({
                 saldo: 0,
-                nome: nome
+                nome: nome,
+                empresa: empresa
             })
             .then(()=>{
                 let data = {
                     uid: uid,
                     nome: nome,
                     email: value.user.email,
+                    empresa: empresa
                 };
                 setUser(data);
                 storageUser(data);
