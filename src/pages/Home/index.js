@@ -31,7 +31,7 @@ export default function Home() {
 
       await firebase.database().ref('historico')
       .child(eid)
-      .orderByChild('date').equalTo(format(newDate, 'dd/MM/yyyy'))
+      .orderByChild('date').startAt(format(newDate, 'dd/MM/yyyy'))
       .limitToLast(20).on('value', (snapshot)=>{
         setHistorico([]);
         

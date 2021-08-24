@@ -92,6 +92,7 @@ export default function Produtos() {
     
     Keyboard.dismiss();
     setValor('');
+    limpaTela();
     setLoadingSave(false);
     this.loadList();
   

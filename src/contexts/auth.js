@@ -31,16 +31,15 @@ function AuthProvider({ children }){
         setLoadingAuth(true);
         await firebase.auth().signInWithEmailAndPassword(email,password)
         .then(async (value)=>{
-            let uid = value.user.empresa;
+            let uid = value.user.uid;
             await firebase.database().ref('users').child(uid).once('value')
             .then((snapshot)=>{
                 let data = {
                   uid: uid,
                   nome: snapshot.val().nome,
                   email: value.user.email,
-                  empresa: value.user.empresa
+                  empresa: snapshot.val().empresa
                 };
-
                 setUser(data);
                 storageUser(data);
                 setLoadingAuth(false);
@@ -55,7 +54,7 @@ function AuthProvider({ children }){
                 Alert.alert('ATENÇÃO','Sua senha esta incorreta')
             } else
             if(error.code === 'auth/user-not-found'){
-                Alert.alert('ATENÇÃO','Usuário não cadastrado')
+                Alert.alert('ATENÇÃO','Usuário não cadastrado'  )
             } else
             if(error.code === 'auth/invalid-email'){
                 Alert.alert('ERRO','Email inválido')
@@ -84,6 +83,7 @@ function AuthProvider({ children }){
                     email: value.user.email,
                     empresa: empresa
                 };
+                
                 setUser(data);
                 storageUser(data);
                 setLoadingAuth(false);
