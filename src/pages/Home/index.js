@@ -91,10 +91,10 @@ export default function Home() {
     .child(eid).child(data.key).remove()
     .then( async ()=>{
       let saldoAtual = saldo;
-      data.status === 'entregue' ? saldoAtual -= parseFloat(data.valor) : '' ;
-
-      await firebase.database().ref('empresas').child(eid)
-      .child('saldo').set(saldoAtual);
+      if (data.status === 'entregue'){
+        saldoAtual -= parseFloat(data.valor);
+        atualizasaldo(saldoAtual, data, 'Débito Exclusão');
+       }   
     })
     .catch((error)=>{
       console.log(error);
@@ -155,14 +155,16 @@ export default function Home() {
   
     await firebase.database().ref('historico')
     .child(eid).child(data.key).update({ 
-        status: novoStatus
+        status: novoStatus,
+        dateUltAlteracao: format(new Date(), 'dd/MM/yyyy')
     })
     .then( async ()=>{
       let saldoAtual = saldo;
-      novoStatus === 'congelando' ? saldoAtual -= parseFloat(data.valor) : '';
 
-      await firebase.database().ref('empresas').child(eid)
-      .child('saldo').set(saldoAtual);
+      if (novoStatus === 'congelando'){
+        saldoAtual -= parseFloat(data.valor);
+        atualizasaldo(saldoAtual, data, 'Débito Cancelamento');
+       }   
     })
     .catch((error)=>{
       console.log(error);
@@ -210,18 +212,33 @@ export default function Home() {
   
     await firebase.database().ref('historico')
     .child(eid).child(data.key).update({ 
-        status: novoStatus
+        status: novoStatus,
+        dateUltAlteracao: format(new Date(), 'dd/MM/yyyy')
     })
     .then( async ()=>{
       let saldoAtual = saldo;
-      novoStatus === 'entregue' ? saldoAtual += parseFloat(data.valor) : '';
-
-      await firebase.database().ref('empresas').child(eid)
-      .child('saldo').set(saldoAtual);
+       if (novoStatus === 'entregue'){
+        saldoAtual += parseFloat(data.valor);
+        atualizasaldo(saldoAtual, data, 'Crédito');
+       }   
     })
     .catch((error)=>{
       console.log(error);
     })
+  }
+
+  async function atualizasaldo(saldoAtual, data, tipoAlt){
+    await firebase.database().ref('empresas').child(eid)
+    .child('saldo').set(saldoAtual);
+
+    let key = await firebase.database().ref('historicoSaldo').child(eid).push().key;
+    await firebase.database().ref('historicoSaldo').child(eid).child(key).set({
+      tipo: tipoAlt,
+      valorAnterior: parseFloat(data.valor),
+      valornovo: parseFloat(saldoAtual),
+      cliente: data.cliente,
+      date: format(new Date(), 'dd/MM/yyyy')
+    });
   }
 
  return (
