@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Alert, TouchableOpacity, Platform } from 'react-native';
 import firebase from '../../services/firebaseConnection';
-import { format, isBefore } from 'date-fns';
+import { format, isBefore, addDays } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
 import { AuthContext } from '../../contexts/auth';
@@ -20,7 +20,7 @@ export default function Home() {
   const { user } = useContext(AuthContext);
   const uid = user && user.uid;
   const eid = user && user.empresa;
-  const [newDate, setNewDate] = useState(new Date());
+  const [newDate, setNewDate] = useState(addDays(new Date(),-7));
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
   useEffect(()=>{
@@ -236,7 +236,7 @@ export default function Home() {
         <TouchableOpacity onPress={handleShowPicker}>
           <Icon name="event" color="#FFF" size={30}  />
         </TouchableOpacity>
-        <Title>Ultimos Pedidos</Title>
+        <Title>Pedidos apartir de {format(newDate, 'dd/MM/yyyy')}</Title>
         <AddIcon> 
           <TouchableOpacity onPress={ () => navigation.navigate('Registrar Pedidos') }>
           
