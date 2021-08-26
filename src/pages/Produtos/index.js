@@ -25,7 +25,6 @@ export default function Produtos() {
  const [loadingSave, setLoadingSave] = useState(false);
 
  useEffect(()=>{
-  
   async function loadList(){
     setLoadingSave(true);
     let uid = usuario.uid;

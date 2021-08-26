@@ -9,8 +9,8 @@ export default function Header({titulo}) {
 
  return (
    <Container>
-       <ButtonMenu onPress={ () => navigation.toggleDrawer() }>
-         <Icon name="menu" color="#FFF" size={35} />
+       <ButtonMenu onPress={ () => titulo === 'Historico' ? navigation.goBack()  : navigation.toggleDrawer()  }>
+         <Icon name={ titulo === 'Historico' ? "arrow-left" : "menu"} color="#FFF" size={35} />
        </ButtonMenu>  
        <Title>{titulo}</Title>    
    </Container>

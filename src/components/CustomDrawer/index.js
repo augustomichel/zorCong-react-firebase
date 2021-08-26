@@ -6,6 +6,10 @@ import { AuthContext } from '../../contexts/auth';
 
 export default function CustomDrawer(props) {
     const { user, signOut } = useContext(AuthContext);
+    const { state, ...rest } = props;
+    const newState = { ...state};  
+    newState.routes = newState.routes.filter(item => item.name !== 'Historico Pedido'); 
+    
  return (
    <DrawerContentScrollView  {...props} >
        <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 25}}>
@@ -23,7 +27,7 @@ export default function CustomDrawer(props) {
            </Text>
        </View>
 
-      <DrawerItemList {...props} />
+       <DrawerItemList state={newState} {...rest} />
 
       <DrawerItem
       {...props}

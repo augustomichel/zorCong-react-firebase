@@ -9,8 +9,7 @@ function AuthProvider({ children }){
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingAuth, setLoadingAuth] = useState(false);
-    const [produtos, setProdutos] = useState([]);
-
+  
     useEffect(()=> {
        async function loadStorage(){
            const storageUser = await AsyncStorage.getItem('Auth_user');
@@ -125,24 +124,9 @@ function AuthProvider({ children }){
         })
 
     }
-    async function getProdutos(){
-        await firebase.database().ref('produtos')
-        .orderByChild('nome')//.equalTo(format(newDate, 'dd/MM/yyyy'))
-        .limitToLast(20).on('value', (snapshot)=>{
-          setProdutos([]);
-         
-          snapshot.forEach((childItem) => {
-            let list = {
-              nome: childItem.nome,
-            };
-
-            setProdutos(oldArray => [...oldArray, list].reverse());
-            })
-        })
-    }
-
+    
     return(
-     <AuthContext.Provider value={{ signed: !!user , user, getProdutos, loading, signUp, signIn, signOut, loadingAuth }}>
+     <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, signOut, loadingAuth }}>
          {children}
      </AuthContext.Provider>   
     );

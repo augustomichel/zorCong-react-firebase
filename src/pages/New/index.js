@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
+import { PedidosContext } from '../../contexts/pedidos';
 
 import Header from '../../components/Header';
 import { Background, Input, SubmitButton, SubmitText, PickerView} from './styles';
@@ -14,41 +15,27 @@ import { ValidationError } from 'jest-validate';
 export default function New() {
   
  const navigation = useNavigation();
-
+ const {handleAdd, getProdutos, produtos} = useContext(PedidosContext);
  const [valor, setValor] = useState([]);
  const [tipo, setTipo] = useState([]);
  const [cliente, setCliente] = useState('');
- const { user: usuario } = useContext(AuthContext);
- const [produtos, setProdutos] = useState([]);
- const [preco, setPreco] = useState('');
- const [atualiza, setAtualiza] = useState('');
+ 
+
 
  useEffect(()=>{
   async function loadList(){
     
-    let uid = usuario.uid;
-    let eid = usuario.empresa;
-    await firebase.database().ref('produtos').child(eid)
-      .on('value', (snapshot)=>{
-      setProdutos([]);
-      
-      snapshot.forEach((childItem) => {
-        let list = {
-          nome: childItem.val().nome,
-          valor: childItem.val().valor,
-        };
-        
-        setProdutos(oldArray => [...oldArray, list].reverse());
-        
-      })
-    })   
+    getProdutos();
+
+ 
   }
   
   loadList();
-  setTipo(produtos[0])
+  
 }, []);
 
 useEffect(()=>{
+  
   async function loadList(){    
     if (tipo.valor === undefined){
       setValor('' + tipo);       
@@ -81,33 +68,14 @@ useEffect(()=>{
       },
       {
         text: 'Continuar',
-        onPress: () => handleAdd()
+        onPress: () => (handleAdd(tipo, cliente, valor), navigation.navigate('Home'))
       }
     ]
   )
-
+  
+     
  }
 
- async function handleAdd(){
-   let uid = usuario.uid;
-   let eid = usuario.empresa;
-    let key = await firebase.database().ref('historico').child(eid).push().key;
-    await firebase.database().ref('historico').child(eid).child(key).set({
-      tipo: tipo.nome === undefined ? tipo : tipo.nome,
-      valor: parseFloat(valor),
-      cliente: cliente,
-      status: 'novo',
-      date: format(new Date(), 'dd/MM/yyyy')
-    });
-
-    Keyboard.dismiss();
-    //setValor([]);
-    //setCliente('');
-    //setTipo([]);
-   
-    navigation.navigate('Home');
-
- }
 
  return (
    <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss() }>

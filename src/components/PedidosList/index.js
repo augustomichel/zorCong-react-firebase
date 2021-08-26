@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-import {Container, Tipo, IconView, TipoText, ClienteText, Del, IconDel, IconNav, Mov} from './styles';
+import {Container, Tipo, IconView, TipoText, ClienteText,IconPay, Del, IconDel, IconNav, Mov} from './styles';
 
-export default function PedidosList({ data, deleteItem, updateItemBack,updateItemFoward }) {
+export default function PedidosList({ data, deleteItem,pagar, updateItemBack,updateItemFoward ,abreHistorico}) {
  return (
-   <TouchableWithoutFeedback onLongPress={ () => updateItem(data) }>
+   <TouchableWithoutFeedback onLongPress={ () => abreHistorico(data) }>
    <Container>
       <Tipo>
           <Mov>
@@ -44,12 +44,22 @@ export default function PedidosList({ data, deleteItem, updateItemBack,updateIte
         </Mov>
       </Tipo>
       <ClienteText>
-      {data.tipo} - {data.cliente} - {data.date}
+      {data.tipo} - {data.cliente} 
       </ClienteText>
-
-        
-
-        <Del>
+      <ClienteText>
+       {data.date}
+      </ClienteText>
+                
+      <Del>
+        <TouchableWithoutFeedback onPress={ () => pagar(data) }>
+          <IconPay tipo='Pay' status= {data.pago === "Sim" ? "1" : "2"}>
+              <Icon 
+              name=  'dollar-sign' 
+              color="#FFF" 
+              size={20} 
+              />
+          </IconPay>
+        </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={ () => deleteItem(data) }>
           <IconDel tipo='Del'>
               <Icon 
@@ -59,7 +69,7 @@ export default function PedidosList({ data, deleteItem, updateItemBack,updateIte
               />
           </IconDel>
         </TouchableWithoutFeedback>
-        </Del>
+      </Del>
    </Container>
    </TouchableWithoutFeedback>  
   );

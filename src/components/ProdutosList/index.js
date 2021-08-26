@@ -10,7 +10,10 @@ export default function ProdutosList({ data, deleteItem,updateItem }) {
     <Container>
         
           <ClienteText>
-          {data.nome} - R$ {data.valor}
+          {data.nome} 
+          </ClienteText>
+          <ClienteText>
+           R$ {data.valor}
           </ClienteText>
         
         <Del>

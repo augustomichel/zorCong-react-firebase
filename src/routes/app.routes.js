@@ -1,10 +1,12 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from '../pages/Home';
 import New from '../pages/New';
 import Produtos from '../pages/Produtos'
 import Profile from '../pages/Profile';
+import HistoricoPedido from '../pages/HistoricoPedido';
 import CustomDrawer from '../components/CustomDrawer';
 
 
@@ -36,7 +38,19 @@ function AppRoutes(){
         <AppDrawer.Screen name="Registrar Pedidos" component={New} />
         <AppDrawer.Screen name="Cadastro de Produtos" component={Produtos} />
         <AppDrawer.Screen name="Perfil" component={Profile} />
+        <AppDrawer.Screen 
+                name="Historico Pedido" 
+                component={HistoricoPedido} 
+                options={{
+                    hidden: true
+                }}
+            />
+
+        
     </AppDrawer.Navigator>
+ 
+ 
+
     );
 }
 
