@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Alert, TouchableOpacity, Platform } from 'react-native';
-import firebase from '../../services/firebaseConnection';
-import { format, isBefore, addDays } from 'date-fns';
+import { Alert, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
+
+import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
 import { AuthContext } from '../../contexts/auth';
@@ -13,25 +13,25 @@ import PedidosList from '../../components/PedidosList';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from '../../components/DatePicker';
 
-import { Background, Container, Nome, Saldo, Title, List, Area, AddIcon} from './styles';
+import { Background,  Title, List, Area, AddIcon} from './styles';
 
 export default function Home() {
   const { saldo, getSaldo, getPedidos, pedidos ,
           handleUpdateBackSuccess, handleUpdateFowardSuccess,
-          handleDeleteSuccess,handlePagarPedido,
+          handleDeleteSuccess,handlePagarPedido,loading,
           newDate,setNewDate, setKeyPedido} = useContext(PedidosContext);
-  const { user } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
+  
   
   useEffect(()=>{
     async function loadList(){
       
       getSaldo();
       getPedidos();
-    
+      
     }
-
+    
     loadList();
   }, [newDate]);
 
@@ -172,15 +172,21 @@ function handleabreHistorico(data){
         </AddIcon>
         
       </Area>
+      {
+          loading ? (
+            <ActivityIndicator size={20} color="#111" />
+          ) : (
+            <List
+            showsVerticalScrollIndicator={false}
+            data={pedidos}
+            keyExtractor={ item => item.key}
+            renderItem={ ({ item }) => ( <PedidosList data={item} pagar={pagarPedido} deleteItem={handleDelete} 
+              updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} 
+              abreHistorico={handleabreHistorico} /> )}
+            />
+          )
+        }
       
-      <List
-      showsVerticalScrollIndicator={false}
-      data={pedidos}
-      keyExtractor={ item => item.key}
-      renderItem={ ({ item }) => ( <PedidosList data={item} pagar={pagarPedido} deleteItem={handleDelete} 
-        updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} 
-        abreHistorico={handleabreHistorico} /> )}
-      />
 
       {show && (
         <DatePicker

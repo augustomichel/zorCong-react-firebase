@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-import {Container, Tipo, IconView, TipoText, ClienteText, Del, IconDel, IconNav, Mov} from './styles';
+import {Container, ClienteText, Del, IconDel} from './styles';
 
 export default function ProdutosList({ data, deleteItem,updateItem }) {
  return (

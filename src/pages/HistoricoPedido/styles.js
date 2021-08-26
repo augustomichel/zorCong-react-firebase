@@ -28,23 +28,25 @@ export const SubmitText = styled.Text`
 font-size: 21px;
 font-weight: bold;
 color: rgba(255,255,255, 0.9);
+margin-left: auto;
+margin-right: auto;
 `;
 
 export const Area = styled.View`
 flex-direction: row;
+
 `;
 
 export const ClienteText = styled.Text`
 color: #222;
 font-size:22px;
 font-weight: bold;
+
 `;
 
 export const Container = styled.View`
-margin-bottom: 5px;
-padding: 10px;
-box-shadow: 2px 2px rgba(0,0,0, 0.40);
-background-color: rgba(0,0,0,0.20);
+flex:1;
+
 `;
 
 export const IconDel = styled.View`

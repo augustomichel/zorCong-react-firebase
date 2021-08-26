@@ -58,7 +58,7 @@ font-style: italic;
 
 export const ClienteText = styled.Text`
 color: #222;
-font-size:22px;
+font-size:16px;
 font-weight: bold;
 `;
 

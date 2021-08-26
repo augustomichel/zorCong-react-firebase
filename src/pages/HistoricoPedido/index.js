@@ -1,26 +1,24 @@
 import React, { useState, useContext,useEffect } from 'react';
-import { SafeAreaView, Text,Keyboard, TouchableWithoutFeedback, Alert, ActivityIndicator} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../../contexts/auth';
+import { Keyboard, TouchableWithoutFeedback, Alert, ActivityIndicator} from 'react-native';
+
 import { PedidosContext } from '../../contexts/pedidos';
 import Header from '../../components/Header';
-import { Background, Input, SubmitButton, SubmitText,Title, Del,IconDel, List, Area, ClienteText} from './styles';
-import Icon from 'react-native-vector-icons/Feather';
-import HistoricoPedidosList from '../../components/HistoricoPedidosList';
-import { format, isBefore } from 'date-fns';
+import { Background,  SubmitText,Container, List, Area} from './styles';
 
+import HistoricoPedidosList from '../../components/HistoricoPedidosList';
+
+import HistoricoPagamentosList from '../../components/HistoricoPagamentosList';
 
 export default function HistoricoPedido(data) {
- const { getHistoricoPedido , historicoPedido, keyPedido } = useContext(PedidosContext);
- const [loadingSave, setLoadingSave] = useState(false);
-
+ const { getHistoricoPedido ,loading, historicoPedido,getHistoricoPagamentos , historicoPagamentos, keyPedido } = useContext(PedidosContext);
+ 
  useEffect(()=>{
   
   async function loadList(){
-    
-    setLoadingSave(true);
+
     getHistoricoPedido();
-    setLoadingSave(false);
+    getHistoricoPagamentos();
+    
   }
   loadList();
 }, [keyPedido]);
@@ -33,20 +31,39 @@ export default function HistoricoPedido(data) {
    <Background>
    <Header titulo='Historico'/>   
        {
-          loadingSave ? (
+          loading ? (
             <List
               showsVerticalScrollIndicator={false}
               data={'a'}
               renderItem={() => (<ActivityIndicator size={50} color="#111" />)} 
             />  
           ) : (
-            <List
-              showsVerticalScrollIndicator={false}
-              data={historicoPedido}
-              keyExtractor={ item => item.key}
-              renderItem={({ item }) => ( <HistoricoPedidosList data={item} /> )}
+            <Container>
+    
+              <Area>  
+               <Container>
+                  <SubmitText>Etapas</SubmitText>
+                  <List
+                    showsVerticalScrollIndicator={false}
+                    data={historicoPedido}
+                    keyExtractor={ item => item.key}
+                    renderItem={({ item }) => ( <HistoricoPedidosList data={item} /> )}
+                  />
+                </Container>
+                <Container>
+                  <SubmitText>Pagamentos</SubmitText>
+                  <List
+                    showsVerticalScrollIndicator={false}
+                    data={historicoPagamentos}
+                    keyExtractor={ item => item.key}
+                    renderItem={({ item }) => ( <HistoricoPagamentosList data={item} simplificado='true'/> )}
 
-            />
+                  />
+                </Container>
+              </Area>
+            
+            </Container>
+
           )
         }
        

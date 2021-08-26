@@ -5,10 +5,10 @@ import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
 
 import Header from '../../components/Header';
-import { Background, Input, SubmitButton, SubmitText,Title, Del,IconDel, List, Area, ClienteText} from './styles';
-import Icon from 'react-native-vector-icons/Feather';
+import { Background, Input, SubmitButton, SubmitText, List, Area} from './styles';
+
 import ProdutosList from '../../components/ProdutosList';
-import { format, isBefore } from 'date-fns';
+
 
 
 export default function Produtos() {

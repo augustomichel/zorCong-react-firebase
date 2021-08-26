@@ -24,8 +24,12 @@ padding-left: 10;
 
 export const IconView = styled.View`
 flex-direction:row;
-background-color: ${props => 
-                    props.status === 'novo' ? '#C62c36' : props.status === 'fazendo' ? '#ffff00' : '#049301'};
+background-color:${props => 
+              props.tipo === 'novo' ? '#C62c36' :
+              props.tipo === 'congelando' ? '#111' :
+              props.tipo === 'fazendo' ? '#111' :
+              props.tipo === 'pronto' ? '#ffff00' : '#049301'};
+                   
 padding-bottom: 3px;
 padding-top: 3px;
 padding-left: 8px;

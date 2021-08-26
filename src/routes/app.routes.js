@@ -8,6 +8,7 @@ import Produtos from '../pages/Produtos'
 import Profile from '../pages/Profile';
 import HistoricoPedido from '../pages/HistoricoPedido';
 import CustomDrawer from '../components/CustomDrawer';
+import Conta from '../pages/Conta';
 
 
 const AppDrawer = createDrawerNavigator();
@@ -40,12 +41,10 @@ function AppRoutes(){
         <AppDrawer.Screen name="Perfil" component={Profile} />
         <AppDrawer.Screen 
                 name="Historico Pedido" 
-                component={HistoricoPedido} 
-                options={{
-                    hidden: true
-                }}
-            />
-
+                component={HistoricoPedido} />
+        <AppDrawer.Screen 
+                name="Conta" 
+                component={Conta} />
         
     </AppDrawer.Navigator>
  
