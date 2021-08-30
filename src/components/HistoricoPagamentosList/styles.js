@@ -4,7 +4,9 @@ export const Container = styled.View`
 margin-bottom: 5px;
 padding: 10px;
 box-shadow: 2px 2px rgba(0,0,0, 0.40);
-background-color: rgba(0,0,0,0.20);
+background-color: ${props => 
+                    props.tipo === 'Crédito' ? '#049301'  : '#C62c36'}
+
 `;
 
 export const Tipo = styled.View`
@@ -14,22 +16,17 @@ margin-right: auto;
 `;
 
 export const Del = styled.View`
-flex-direction: row;
+flex-direction: row-reverse;
 text-align: center;
 `;
 export const Mov = styled.View`
 flex-direction: row;
 padding-left: 10;
 `;
-
 export const IconView = styled.View`
 flex-direction:row;
-background-color:${props => 
-              props.tipo === 'novo' ? '#C62c36' :
-              props.tipo === 'congelando' ? '#111' :
-              props.tipo === 'fazendo' ? '#111' :
-              props.tipo === 'pronto' ? '#111' : '#049301'};
-                   
+background-color: ${props => 
+                    props.status === 'novo' ? '#C62c36' : props.status === 'fazendo' ? '#ffff00' : '#049301'};
 padding-bottom: 3px;
 padding-top: 3px;
 padding-left: 8px;
@@ -38,15 +35,13 @@ border-radius: 7px;
 `;
 
 export const IconDel = styled.View`
-flex-direction:row-reverse;
+flex-direction:row;
 background-color: #C62c36 ;
 padding-bottom: 3px;
 padding-top: 3px;
 padding-left: 8px;
 padding-right: 8px;
 border-radius: 7px;
-margin-left: auto;
-margin-right: 1px;
 `;
 
 export const IconNav = styled.View`
@@ -57,18 +52,6 @@ padding-left: 8px;
 padding-right: 8px;
 border-radius: 7px;
 `;
-
-export const IconPay = styled.View`
-flex-direction:row;
-background-color: ${props => 
-                    props.status === '2' ? '#C62c36' :  '#049301'}  ;
-padding-bottom: 3px;
-padding-top: 3px;
-padding-left: 8px;
-padding-right: 8px;
-border-radius: 7px;
-`;
-
 export const TipoText = styled.Text`
 color: #FFF;
 font-size: 16px;
@@ -77,7 +60,7 @@ font-style: italic;
 
 export const ClienteText = styled.Text`
 color: #222;
-font-size:18px;
+font-size:16px;
 font-weight: bold;
 `;
 

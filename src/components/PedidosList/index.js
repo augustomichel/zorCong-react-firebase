@@ -1,11 +1,13 @@
-import React from 'react';
-import {  TouchableWithoutFeedback } from 'react-native';
+import React, {useContext,useState} from 'react';
+import {  TouchableWithoutFeedback,ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-
+import { PedidosContext } from '../../contexts/pedidos';
 
 import {Container, Tipo, IconView, TipoText, ClienteText,IconPay, Del, IconDel, IconNav, Mov} from './styles';
 
 export default function PedidosList({ data, deleteItem,pagar, updateItemBack,updateItemFoward ,abreHistorico}) {
+  const { loadingPag } = useContext(PedidosContext);
+  //const [loading, setLoading] = useState(false);
   return (
    <TouchableWithoutFeedback onLongPress={ () => abreHistorico(data) }>
    <Container>
@@ -53,15 +55,23 @@ export default function PedidosList({ data, deleteItem,pagar, updateItemBack,upd
                 
       <Del>
         <TouchableWithoutFeedback onPress={ () => pagar(data) }>
-       
+        {
+          loadingPag ? 
+          <IconPay tipo='Pay' status= {data.pago === "Sim" ? "1" : "2"}>
+            <ActivityIndicator size={20} color="#fff" />  
+          </IconPay>
+           :   
           <IconPay tipo='Pay' status= {data.pago === "Sim" ? "1" : "2"}>
               <Icon 
               name=  'dollar-sign' 
               color="#FFF" 
               size={20} 
               />
+              
+              <TipoText>{data.pago === "Sim" ? "Pago" : ""}</TipoText>
+
           </IconPay>
-            
+        }   
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={ () => deleteItem(data) }>
           <IconDel tipo='Del'>

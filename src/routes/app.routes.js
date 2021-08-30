@@ -40,11 +40,12 @@ function AppRoutes(){
         <AppDrawer.Screen name="Cadastro de Produtos" component={Produtos} />
         <AppDrawer.Screen name="Perfil" component={Profile} />
         <AppDrawer.Screen 
-                name="Historico Pedido" 
-                component={HistoricoPedido} />
-        <AppDrawer.Screen 
                 name="Conta" 
                 component={Conta} />
+        <AppDrawer.Screen 
+                name="Historico Pedido" 
+                component={HistoricoPedido} />
+        
         
     </AppDrawer.Navigator>
  

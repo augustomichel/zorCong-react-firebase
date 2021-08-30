@@ -14,6 +14,8 @@ target 'zorCong' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'zorCongTests' do
     inherit! :complete
     # Pods for testing

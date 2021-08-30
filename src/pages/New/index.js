@@ -1,16 +1,12 @@
 import React, { useState, useContext,useEffect, Component } from 'react';
 import { SafeAreaView, Keyboard, TouchableWithoutFeedback, Alert} from 'react-native';
-import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
-import firebase from '../../services/firebaseConnection';
-import { AuthContext } from '../../contexts/auth';
 import { PedidosContext } from '../../contexts/pedidos';
 
 import Header from '../../components/Header';
 import { Background, Input, SubmitButton, SubmitText, PickerView} from './styles';
 import Picker from '../../components/Picker';
 import { Tipo } from '../../components/PedidosList/styles';
-import { ValidationError } from 'jest-validate';
 
 export default function New() {
   

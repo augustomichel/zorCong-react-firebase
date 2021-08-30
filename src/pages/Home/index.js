@@ -4,7 +4,6 @@ import { Alert, TouchableOpacity, Platform, ActivityIndicator } from 'react-nati
 import { format } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 
-import { AuthContext } from '../../contexts/auth';
 import { PedidosContext } from '../../contexts/pedidos';
 
 import Header from '../../components/Header';
@@ -15,24 +14,26 @@ import DatePicker from '../../components/DatePicker';
 
 import { Background,  Title, List, Area, AddIcon} from './styles';
 
+
 export default function Home() {
-  const { saldo, getSaldo, getPedidos, pedidos ,
+  const { getPedidos, pedidos ,
           handleUpdateBackSuccess, handleUpdateFowardSuccess,
-          handleDeleteSuccess,handlePagarPedido,loading,
+          handleDeleteSuccess,handlePagarPedido,loading,setLoading,
           newDate,setNewDate, setKeyPedido} = useContext(PedidosContext);
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
-  
+ 
   
   useEffect(()=>{
-    async function loadList(){
-      
-      getSaldo();
-      getPedidos();
-      
-    }
     
+    async function loadList(){  
+     
+      getPedidos();
+     
+    }
+   
     loadList();
+    
   }, [newDate]);
 
 
@@ -61,6 +62,7 @@ export default function Home() {
 
   function handleClose(){
     setShow(false);
+    
   }
 
   const onChange = (date) => {
@@ -157,37 +159,42 @@ function handleabreHistorico(data){
  return (
     <Background>
       <Header titulo='Pedidos'/>   
-      <Area>
+     
+        <Area>
         <TouchableOpacity onPress={handleShowPicker}>
-          <Icon name="event" color="#FFF" size={30}  />
-        </TouchableOpacity>
-        <Title>Pedidos apartir de {format(newDate, 'dd/MM/yyyy')}</Title>
-        <AddIcon> 
-          <TouchableOpacity onPress={ () => navigation.navigate('Registrar Pedidos') }>
-          
-              <Icon name="add-box" color="#00b94a" size={30}  />
-              
-          </TouchableOpacity>
-          
-        </AddIcon>
         
-      </Area>
-      {
-          loading ? (
-            <ActivityIndicator size={20} color="#111" />
-          ) : (
+          
+            <Icon name="event" color="#FFF" size={30}  />
+          </TouchableOpacity>
+          <Title>Pedidos apartir de {format(newDate, 'dd/MM/yyyy')}</Title>
+          <AddIcon> 
+            <TouchableOpacity onPress={ () => navigation.navigate('Registrar Pedidos') }>
+            
+                <Icon name="add-box" color="#00b94a" size={30}  />
+                
+            </TouchableOpacity>
+            
+          </AddIcon>
+
+        </Area>
+        { loading ? 
             <List
             showsVerticalScrollIndicator={false}
-            data={pedidos}
+            data={'a'}
             keyExtractor={ item => item.key}
-            renderItem={ ({ item }) => ( <PedidosList data={item} pagar={pagarPedido} deleteItem={handleDelete} 
-              updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} 
-              abreHistorico={handleabreHistorico} /> )}
+            renderItem={({ item }) => ( <ActivityIndicator size={40} color="#111" />  )}
+        
             />
-          )
-        }
-      
-
+            : 
+              <List
+              showsVerticalScrollIndicator={false}
+              data={pedidos}
+              keyExtractor={ item => item.key}
+              renderItem={ ({ item }) => ( <PedidosList data={item} pagar={pagarPedido} deleteItem={handleDelete} 
+                updateItemFoward={handleUpdateFoward} updateItemBack={handleUpdateBack} 
+                abreHistorico={handleabreHistorico} /> )}
+              /> 
+            }
       {show && (
         <DatePicker
         onClose={handleClose}
@@ -197,5 +204,7 @@ function handleabreHistorico(data){
       )}
 
     </Background>
+    
   );
+      
 }
