@@ -12,7 +12,7 @@ export default function New() {
   
  const navigation = useNavigation();
  const {handleAdd, getProdutos, produtos} = useContext(PedidosContext);
- const [valor, setValor] = useState([]);
+ const [valor, setValor] = useState('');
  const [tipo, setTipo] = useState([]);
  const [cliente, setCliente] = useState('');
  
@@ -38,7 +38,7 @@ useEffect(()=>{
     } else {
       setValor('' + tipo.valor);
     }
-    setPreco(valor);
+    //setPreco(valor);
   }
   
   loadList();
@@ -81,8 +81,8 @@ useEffect(()=>{
        <SafeAreaView style={{ alignItems: 'center' }}>
        <Input
          placeholder="Cliente"
-         keyboardType="text"
-         returnKeyType="next"
+         keyboardType="default"
+         //returnKeyType="next"
          onSubmitEditing={ () => Keyboard.dismiss() }
          value={cliente}
          onChangeText={ (text) => setCliente(text) }
@@ -94,7 +94,7 @@ useEffect(()=>{
         <Input
          placeholder="Valor produto"
          keyboardType="numeric"
-         returnKeyType="next"
+         //returnKeyType="next"
          onSubmitEditing={ () => Keyboard.dismiss() }
          value={valor}
          onChangeText={ (text) => setValor(text) }

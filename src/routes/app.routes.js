@@ -9,6 +9,8 @@ import Profile from '../pages/Profile';
 import HistoricoPedido from '../pages/HistoricoPedido';
 import CustomDrawer from '../components/CustomDrawer';
 import Conta from '../pages/Conta';
+import Despesa from '../pages/Despesa';
+import CadDespesa from '../pages/NewDespesa';
 
 
 const AppDrawer = createDrawerNavigator();
@@ -40,11 +42,17 @@ function AppRoutes(){
         <AppDrawer.Screen name="Cadastro de Produtos" component={Produtos} />
         <AppDrawer.Screen name="Perfil" component={Profile} />
         <AppDrawer.Screen 
+                name="Despesas" 
+                component={Despesa} />
+        <AppDrawer.Screen 
                 name="Conta" 
                 component={Conta} />
         <AppDrawer.Screen 
                 name="Historico Pedido" 
                 component={HistoricoPedido} />
+        <AppDrawer.Screen 
+                name="Cadastrar Despesa" 
+                component={CadDespesa} />
         
         
     </AppDrawer.Navigator>

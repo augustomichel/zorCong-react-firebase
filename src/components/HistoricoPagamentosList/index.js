@@ -24,6 +24,9 @@ export default function HistoricoPagamentosList({ data, simplificado  }) {
               {data.cliente}
             </ClienteText>
             <ClienteText>
+              {data.produto}
+            </ClienteText>
+            <ClienteText>
               {data.date} 
             </ClienteText>
             <ClienteText>

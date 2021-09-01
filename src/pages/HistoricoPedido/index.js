@@ -43,6 +43,7 @@ export default function HistoricoPedido(data) {
                       <List
                         showsVerticalScrollIndicator={false}
                         data={'a'}
+                        keyExtractor={ item => item.key + 'loading'}
                         renderItem={() => (<ActivityIndicator size={50} color="#111" />)} 
                       />  
                     : 
@@ -62,6 +63,7 @@ export default function HistoricoPedido(data) {
                       <List
                         showsVerticalScrollIndicator={false}
                         data={'a'}
+                        keyExtractor={ item => item.key + 'loading1'}
                         renderItem={() => (<ActivityIndicator size={50} color="#111" />)} 
                       />  
                     : 

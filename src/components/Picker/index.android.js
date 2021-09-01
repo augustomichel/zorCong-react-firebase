@@ -19,6 +19,7 @@ export default function Picker({ onChange, tipo, produtos }){
                 {produtos.map((item) => {
                     return ( 
                     <RNPickerSelect.Item
+                        key={item.key}
                         label={item.nome}
                         value={item}
                     

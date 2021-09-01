@@ -8,7 +8,7 @@ export default function CustomDrawer(props) {
     const { user, signOut } = useContext(AuthContext);
     const { state, ...rest } = props;
     const newState = { ...state};  
-    newState.routes = newState.routes.filter(item => item.name !== 'Historico Pedido'); 
+    newState.routes = newState.routes.filter(item => item.name !== 'Historico Pedido' && item.name !== 'Cadastrar Despesa'); 
     
  return (
    <DrawerContentScrollView  {...props} >

@@ -68,7 +68,7 @@ export default function Home() {
   const onChange = (date) => {
     setShow(Platform.OS === 'ios');
     setNewDate(date);
-    console.log(date);
+
   } 
 
   function handleUpdateBack(data){
@@ -181,7 +181,7 @@ function handleabreHistorico(data){
             <List
             showsVerticalScrollIndicator={false}
             data={'a'}
-            keyExtractor={ item => item.key}
+            keyExtractor={ item => item.key + 'loading'}
             renderItem={({ item }) => ( <ActivityIndicator size={40} color="#111" />  )}
         
             />

@@ -44,7 +44,7 @@ export default function Conta() {
               <List
               showsVerticalScrollIndicator={false}
               data={'a'}
-              keyExtractor={ item => item.key}
+              keyExtractor={ item => item.key + 'loading'}
               renderItem={({ item }) => ( <ActivityIndicator size={20} color="#111" />  )}
           
             />

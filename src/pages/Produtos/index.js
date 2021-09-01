@@ -25,33 +25,33 @@ export default function Produtos() {
  const [loadingSave, setLoadingSave] = useState(false);
 
  useEffect(()=>{
-  async function loadList(){
-    setLoadingSave(true);
-    let uid = usuario.uid;
-    let eid = usuario.empresa;
-    await firebase.database().ref('produtos').child(eid)
-      .on('value', (snapshot)=>{
-      setProdutos([]);
-      
-      snapshot.forEach((childItem) => {
-        let list = {
-          key: childItem.key,
-          nome: childItem.val().nome,
-          valor: childItem.val().valor,
-        };
-        
-        setProdutos(oldArray => [...oldArray, list].reverse());
-        
-      })
-      
-    })   
-    setLoadingSave(false);
-  }
-  
+
   loadList();
  
 }, []);
  
+async function loadList(){
+  setLoadingSave(true);
+  let uid = usuario.uid;
+  let eid = usuario.empresa;
+  await firebase.database().ref('produtos').child(eid)
+    .on('value', (snapshot)=>{
+    setProdutos([]);
+    
+    snapshot.forEach((childItem) => {
+      let list = {
+        key: childItem.key,
+        nome: childItem.val().nome,
+        valor: childItem.val().valor,
+      };
+      
+      setProdutos(oldArray => [...oldArray, list].reverse());
+      
+    })
+    
+  })   
+  setLoadingSave(false);
+}
 
  function handleSubmit(){
   Keyboard.dismiss();
@@ -93,7 +93,7 @@ export default function Produtos() {
     setValor('');
     limpaTela();
     setLoadingSave(false);
-    this.loadList();
+    loadList();
   
  }
 
@@ -125,7 +125,7 @@ async function handleDeleteSuccess(data){
     console.log(error);
   })
   setLoadingSave(false);
-  this.loadList();
+  loadList();
 }
 
 function carregaUpdate(data){
@@ -169,7 +169,7 @@ async function handleUpdateSuccess(){
   })
   limpaTela();
   setLoadingSave(false);
-  this.loadList();
+  loadList();
 }
 
 function limpaTela(){
@@ -188,7 +188,7 @@ function limpaTela(){
        <Input
          placeholder="Nome"
          editable={loadingSave ? false : true}
-         keyboardType="text"
+         keyboardType="default"
          returnKeyType="next"
          onSubmitEditing={ () => Keyboard.dismiss() }
          value={tipo}
@@ -232,6 +232,7 @@ function limpaTela(){
             <List
               showsVerticalScrollIndicator={false}
               data={'a'}
+              keyExtractor={ item => item.key + 'loading'}
               renderItem={() => (<ActivityIndicator size={50} color="#111" />)} 
             />  
           ) : (

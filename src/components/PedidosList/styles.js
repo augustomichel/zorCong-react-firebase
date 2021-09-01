@@ -19,7 +19,7 @@ text-align: center;
 `;
 export const Mov = styled.View`
 flex-direction: row;
-padding-left: 10;
+padding-left: 10px;
 `;
 
 export const IconView = styled.View`
