@@ -1,4 +1,5 @@
 import React from 'react';
+import Moment from "moment";
 
 import {Container, Tipo, IconView, TipoText, ClienteText, Del, IconDel, IconNav, Mov} from './styles';
 
@@ -7,7 +8,7 @@ export default function HistoricoPedidosList({ data  }) {
     <Container>
         
           <ClienteText>
-          {data.date} 
+          {Moment(data.date).format('DD/MM/yyyy HH:mm')} 
           </ClienteText>
           <ClienteText>
           {data.statusnovo} 

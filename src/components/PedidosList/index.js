@@ -2,6 +2,7 @@ import React, {useContext,useState} from 'react';
 import {  TouchableWithoutFeedback,ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { PedidosContext } from '../../contexts/pedidos';
+import Moment from "moment";
 
 import {Container, Tipo, IconView, TipoText, ClienteText,IconPay, Del, IconDel, IconNav, Mov} from './styles';
 
@@ -50,7 +51,8 @@ export default function PedidosList({ data, deleteItem,pagar, updateItemBack,upd
       {data.tipo} - {data.cliente} 
       </ClienteText>
       <ClienteText>
-       {data.date}
+       {Moment(data.date).format('DD/MM/yyyy HH:mm')}
+       
       </ClienteText>
                 
       <Del>

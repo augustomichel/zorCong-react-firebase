@@ -40,7 +40,7 @@ function handleSubmit(){
       },
       {
         text: 'Continuar',
-        onPress: () => ( handleAddDesp(descricao, data,fornecedor, valor), navigation.navigate('Despesas'))
+        onPress: () => ( handleAddDesp(descricao, dataDefault,fornecedor, valor), navigation.navigate('Despesas'))
       }
     ]
   )

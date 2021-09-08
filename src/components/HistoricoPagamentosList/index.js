@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Moment from "moment";
 
 import {Container,  ClienteText} from './styles';
 
@@ -9,7 +9,7 @@ export default function HistoricoPagamentosList({ data, simplificado  }) {
         <Container tipo={data.tipo}>
             
               <ClienteText>
-              {data.date} 
+              {Moment(data.date).format('DD/MM/yyyy HH:mm')}
               </ClienteText>
               <ClienteText>
               Valor: R$ {data.valor} 

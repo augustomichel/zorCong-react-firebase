@@ -2,6 +2,7 @@ import React from 'react';
 import {  TouchableWithoutFeedback,ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {Container, Tipo, IconView, TipoText, ClienteText, Del, IconDel, IconNav, Mov} from './styles';
+import Moment from "moment";
 
 export default function DespesasList({ data , deleteItem}) {
  return (
@@ -13,7 +14,7 @@ export default function DespesasList({ data , deleteItem}) {
       Fornecedor: {data.fornecedor} 
       </ClienteText>
       <ClienteText>
-      Data: {data.datadespesa} 
+      Data: {Moment(data.datadespesa).format('DD/MM/yyyy HH:mm')} 
       </ClienteText>
       <ClienteText>
       R$ {data.valor} 

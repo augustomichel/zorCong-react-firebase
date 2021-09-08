@@ -3,6 +3,7 @@ import firebase from '../services/firebaseConnection';
 import { Alert , Keyboard} from 'react-native';
 import {AuthContext} from './auth';
 import { format, addDays } from 'date-fns';
+import Moment from "moment";
 
 export const PedidosContext = createContext({});
 
@@ -15,6 +16,7 @@ function PedidosProvider({ children }){
     const [produtos, setProdutos] = useState([]);
     const [saldo, setSaldo] = useState(0);
     const [pedidos, setPedidos] = useState([]);
+    const [pedidos1, setPedidos1] = useState([]);
     const [despesas, setDespesas] = useState([]);
     const [historicoPedido,setHistoricoPedido] = useState([]);
     const [historicoPagamentos,setHistoricoPagamentos] = useState([]);
@@ -50,11 +52,12 @@ function PedidosProvider({ children }){
     
     async function getPedidos(){  
       setLoading(true);
+
       await firebase.database().ref('historico')
       .child(eid)
       //.orderByChild('cliente')
-      .orderByChild('date').startAt(format(newDate, 'dd/MM/yyyy'))
-      .limitToLast(20).on('value', (snapshot)=>{
+      .orderByChild('date').startAt(Moment(newDate).format())
+      .on('value', (snapshot)=>{
         setPedidos([]);
         
         snapshot.forEach((childItem) => {
@@ -65,13 +68,15 @@ function PedidosProvider({ children }){
             date: childItem.val().date,
             status: childItem.val().status,
             cliente: childItem.val().cliente,
-            pago: childItem.val().pago
+            pago: childItem.val().pago,  
           };
           
-          setPedidos(oldArray => [...oldArray, list]);
+          setPedidos(oldArray => [...oldArray, list].reverse());
         })
       })
-      setLoading(false);    
+
+      setLoading(false);   
+      
     }
 
     async function getDespesas(){  
@@ -79,7 +84,7 @@ function PedidosProvider({ children }){
       
       await firebase.database().ref('despesas')
         .child(eid)
-        .orderByChild('datadespesa').startAt(format(newDateDesp, 'dd/MM/yyyy'))
+        .orderByChild('datadespesa').startAt(Moment(newDateDesp).format())
         .on('value', (snapshot)=>{
           setDespesas([]);
           
@@ -178,7 +183,7 @@ function PedidosProvider({ children }){
         valor: parseFloat(valor),
         cliente: cliente,
         status: 'novo',
-        date: format(new Date(), 'dd/MM/yyyy HH:mm'),
+        date: Moment().format(),
         pago: 'Não'
       }).then( async ()=>{
 
@@ -188,7 +193,7 @@ function PedidosProvider({ children }){
           pedido: key,
           statusAnterior: '',
           statusnovo: "Criado",
-          date: format(new Date(), 'dd/MM/yyyy HH:mm:ss')
+          date: Moment().format()
         });
       })
       .catch((error)=>{
@@ -221,7 +226,7 @@ function PedidosProvider({ children }){
       await firebase.database().ref('historico')
       .child(eid).child(data.key).update({ 
           status: novoStatus,
-          dateUltAlteracao: format(new Date(), 'dd/MM/yyyy HH:mm')
+          dateUltAlteracao: Moment().format()
       })
       .then( async ()=>{ 
           registraHistoricoPedido(novoStatus, data, 'próxima');
@@ -254,7 +259,7 @@ function PedidosProvider({ children }){
       await firebase.database().ref('historico')
       .child(eid).child(data.key).update({ 
           status: novoStatus,
-          dateUltAlteracao: format(new Date(), 'dd/MM/yyyy HH:mm')
+          dateUltAlteracao: Moment().format()
       })
       .then( async ()=>{      
          registraHistoricoPedido(novoStatus, data, 'anterior' );
@@ -274,7 +279,7 @@ function PedidosProvider({ children }){
         pedido: data.key,
         statusAnterior: data.status,
         statusnovo: novoStatus,
-        date: format(new Date(), 'dd/MM/yyyy HH:mm:ss')
+        date: Moment().format()
       });
       setLoading(false);    
     }
@@ -292,7 +297,7 @@ function PedidosProvider({ children }){
               cliente: data.cliente,
               valor: data.valor,
               produto: data.tipo,
-              date: format(new Date(), 'dd/MM/yyyy HH:mm:ss')     
+              date: Moment().format()    
           })
           .then (async ()=>{
               if (tipoAlt === 'Crédito'){
@@ -379,13 +384,14 @@ function PedidosProvider({ children }){
 
     async function handleAddDesp(descricao, data,fornecedor, valor){
       setLoading(true);
+   
       let key = await firebase.database().ref('despesas').child(eid).push().key;
       await firebase.database().ref('despesas').child(eid).child(key).set({
         valor: parseFloat(valor),
         descricao: descricao,
         fornecedor: fornecedor,
-        datadespesa: data,
-        dateInclusao: format(new Date(), 'dd/MM/yyyy HH:mm'),
+        datadespesa: Moment(data).format(),
+        dateInclusao: Moment().format(),
       }).then( async ()=>{
           setSaldo(0);
           getSaldo();
